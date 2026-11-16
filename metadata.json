@@ -1,0 +1,6 @@
+{
+  "name": "Silicon Quest — VLSI Learning & AI Mock Interview Arena",
+  "description": "90-day VLSI RTL Design and Design Verification engineering platform featuring an interactive AI-powered technical mock interview system, integrated HDL workbench, adaptive remediation, and Day 15–90 performance analytics.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

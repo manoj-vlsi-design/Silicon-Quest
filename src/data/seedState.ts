@@ -1,0 +1,247 @@
+import { LearnerProfileState } from '../types/interview';
+
+export function createInitialSeedState(): LearnerProfileState {
+  const today = new Date();
+  const twoDaysFromNow = new Date(today.getTime() + 2 * 86400000).toISOString().slice(0, 10);
+  const fifteenDaysAgo = new Date(today.getTime() - 14 * 86400000).toISOString();
+
+  return {
+    learnerName: 'Aarav Menon',
+    currentDay: 29,
+    completedModuleIds: [
+      'm1_number_gates',
+      'm2_comb_circuits',
+      'm3_fsm_intro',
+      'm4_sequential_counters',
+      'm5_verilog_basics',
+      'm6_blocking_nonblocking',
+    ],
+    completedProjectIds: ['m3_fsm_intro', 'm6_blocking_nonblocking'],
+    scheduledInterviews: {
+      30: twoDaysFromNow,
+    },
+    askedQuestionIds: [
+      'q15_r1_twos_comp',
+      'q15_r2_latch_vs_ff',
+      'q15_r3_comb_hazard',
+      'q15_r4_setup_hold_scenario',
+      'q15_r5_alu_project',
+    ],
+    weakTopics: [
+      {
+        id: 'gap_q15_r3_comb_hazard',
+        topic: 'Static Hazards & Glitch Elimination',
+        domain: 'Digital Electronics',
+        severity: 'moderate',
+        actionType: 'lesson',
+        title: 'Revisit Lesson: Combinational Building Blocks & Arithmetic',
+        description:
+          'Missed adding the consensus term (B & C) to eliminate the Static-1 hazard when A transitions 1→0.',
+        curriculumModuleId: 'm2_comb_circuits',
+        relatedQuestionId: 'q15_r3_comb_hazard',
+        resolved: false,
+      },
+    ],
+    reports: [
+      {
+        id: 'rep_day15_initial',
+        checkpointNumber: 1,
+        checkpointDay: 15,
+        mode: 'Technical',
+        isRetest: false,
+        completedAt: fifteenDaysAgo,
+        durationSeconds: 1840,
+        totalScore: 76,
+        percentage: 76,
+        performanceCategory: 'Good',
+        rubricTotals: {
+          conceptualUnderstanding: 20,
+          technicalAccuracy: 15,
+          practicalProblemSolving: 15,
+          codingAndDebugging: 14,
+          communicationAndExplanation: 12,
+        },
+        correctCount: 3,
+        partialCount: 1,
+        incorrectCount: 1,
+        skippedCount: 0,
+        strongestTopics: [
+          'Number Systems & Two’s Complement Overflow',
+          'Setup & Hold Timing Analysis',
+          '4-Bit ALU Architecture & Flags',
+        ],
+        weakestTopics: ['Static Hazards & Glitch Elimination'],
+        codingPerformance:
+          'Solid Boolean reduction and ALU flag logic; needs closer attention to glitch-free prime implicant overlap.',
+        debuggingPerformance:
+          'Identified inverter delay cause during A=1→0 transition, but did not apply the Consensus Theorem fix.',
+        communicationAssessment:
+          'Clear step-by-step timing math and structured explanation of ALU subtraction hardware reuse.',
+        areasRequiringImprovement: [
+          'Eliminating Static-1 and Static-0 hazards with redundant consensus prime implicants',
+          'Distinguishing latch transparency risks in combinational feedback loops',
+        ],
+        adaptivePlan: [
+          {
+            id: 'gap_q15_r3_comb_hazard',
+            topic: 'Static Hazards & Glitch Elimination',
+            domain: 'Digital Electronics',
+            severity: 'moderate',
+            actionType: 'lesson',
+            title: 'Revisit Lesson: Combinational Building Blocks & Arithmetic',
+            description:
+              'Missed adding the consensus term (B & C) to eliminate the Static-1 hazard when A transitions 1→0.',
+            curriculumModuleId: 'm2_comb_circuits',
+            relatedQuestionId: 'q15_r3_comb_hazard',
+            resolved: false,
+          },
+        ],
+        questionRecords: [
+          {
+            questionId: 'q15_r1_twos_comp',
+            round: 1,
+            domain: 'Digital Electronics',
+            subtopic: 'Number Systems & Two’s Complement Overflow',
+            format: 'conceptual',
+            prompt:
+              'Why do hardware engineers overwhelmingly prefer two’s complement representation over sign-magnitude for signed arithmetic, and how do you detect signed overflow in an N-bit adder?',
+            answerText:
+              'Two’s complement avoids separate +0 and -0 encodings and lets one binary adder handle signed/unsigned math. Signed overflow is detected via Cin_MSB ^ Cout_MSB.',
+            skipped: false,
+            status: 'correct',
+            scoreOutOf10: 9,
+            rubricBreakdown: {
+              conceptualUnderstanding: 23,
+              technicalAccuracy: 18,
+              practicalProblemSolving: 18,
+              codingAndDebugging: 18,
+              communicationAndExplanation: 13,
+            },
+            aiFeedback:
+              'Accurate explanation of single-zero encoding, hardware reuse, and carry-in/carry-out XOR overflow detection.',
+            misconceptionsDetected: [],
+            idealExplanation:
+              'Two’s complement eliminates dual zero representations (+0 and -0) and allows the exact same binary adder hardware to perform both signed and unsigned addition. Signed overflow equals C_in_MSB ^ C_out_MSB.',
+            curriculumModuleId: 'm1_number_gates',
+            timeSpentSeconds: 290,
+          },
+          {
+            questionId: 'q15_r2_latch_vs_ff',
+            round: 2,
+            domain: 'Digital Electronics',
+            subtopic: 'Latches vs Flip-Flops & Timing',
+            format: 'deep_dive',
+            prompt:
+              'Walk through the internal timing difference between a level-sensitive D latch and an edge-triggered D flip-flop. Why do synchronous ASIC designs avoid latches in datapaths unless intentionally using time borrowing?',
+            answerText:
+              'A latch is transparent whenever enable is active, so glitches pass right through. Flip-flops use master-slave stages to sample strictly on the clock edge, keeping STA cleanly bounded.',
+            skipped: false,
+            status: 'correct',
+            scoreOutOf10: 8,
+            rubricBreakdown: {
+              conceptualUnderstanding: 21,
+              technicalAccuracy: 17,
+              practicalProblemSolving: 16,
+              codingAndDebugging: 16,
+              communicationAndExplanation: 12,
+            },
+            aiFeedback:
+              'Strong understanding of master-slave edge triggering and glitch isolation.',
+            misconceptionsDetected: [],
+            idealExplanation:
+              'A D latch is transparent whenever its enable/clock is active, allowing input glitches to propagate downstream. A D flip-flop samples strictly at a clock edge, bounding Static Timing Analysis cleanly.',
+            curriculumModuleId: 'm3_fsm_intro',
+            timeSpentSeconds: 360,
+          },
+          {
+            questionId: 'q15_r3_comb_hazard',
+            round: 3,
+            domain: 'Digital Electronics',
+            subtopic: 'Static Hazards & Glitch Elimination',
+            format: 'debugging',
+            prompt:
+              'Consider F = (A & B) | (~A & C). Suppose B = 1 and C = 1, and input A transitions from 1 to 0. Assuming the inverter on A has non-zero propagation delay, trace what happens at F and show how to eliminate this glitch using Boolean algebra.',
+            answerText:
+              'Because ~A arrives late through the inverter, F dips to 0 momentarily before returning to 1. We can fix it by adding a buffer to A.',
+            skipped: false,
+            status: 'incorrect',
+            scoreOutOf10: 4,
+            rubricBreakdown: {
+              conceptualUnderstanding: 12,
+              technicalAccuracy: 8,
+              practicalProblemSolving: 8,
+              codingAndDebugging: 6,
+              communicationAndExplanation: 9,
+            },
+            aiFeedback:
+              'You correctly diagnosed the 1→0→1 Static-1 glitch caused by inverter delay, but adding a buffer on A still leaves race skew across PVT corners. You must add the redundant consensus term (B & C).',
+            misconceptionsDetected: [
+              'Attempted delay-matching buffer instead of Boolean consensus prime implicant (B & C)',
+            ],
+            idealExplanation:
+              'Adding the redundant consensus term (B & C) bridges the two adjacent K-map 1s so F = (A & B) | (~A & C) | (B & C) remains solidly HIGH across the transition.',
+            curriculumModuleId: 'm2_comb_circuits',
+            timeSpentSeconds: 420,
+          },
+          {
+            questionId: 'q15_r4_setup_hold_scenario',
+            round: 4,
+            domain: 'Digital Electronics',
+            subtopic: 'Setup & Hold Timing Analysis',
+            format: 'scenario',
+            prompt:
+              'Two edge-triggered flip-flops FF1 and FF2 share a 500 MHz clock (period = 2.0 ns). FF1 has T_clk_to_q = 0.3 ns, combinational logic delay is 1.5 ns, FF2 has T_setup = 0.25 ns and T_hold = 0.15 ns, and clock skew to FF2 is +0.1 ns. Does this path pass setup and hold timing?',
+            answerText:
+              'Arrival = 0.3 + 1.5 = 1.8 ns. Required setup = 2.0 + 0.1 - 0.25 = 1.85 ns, so setup passes with +50 ps slack. Hold check: 1.8 ns >= 0.15 + 0.10 = 0.25 ns, passes easily.',
+            skipped: false,
+            status: 'correct',
+            scoreOutOf10: 9,
+            rubricBreakdown: {
+              conceptualUnderstanding: 23,
+              technicalAccuracy: 19,
+              practicalProblemSolving: 19,
+              codingAndDebugging: 18,
+              communicationAndExplanation: 14,
+            },
+            aiFeedback:
+              'Exact setup and hold slack derivation including positive clock skew sign.',
+            misconceptionsDetected: [],
+            idealExplanation:
+              'Setup passes by +0.05 ns (+50 ps) and hold passes by +1.55 ns.',
+            curriculumModuleId: 'm3_fsm_intro',
+            timeSpentSeconds: 410,
+          },
+          {
+            questionId: 'q15_r5_alu_project',
+            round: 5,
+            domain: 'Digital Electronics',
+            subtopic: '4-Bit ALU Architecture & Flags',
+            format: 'project_discussion',
+            prompt:
+              'In your Day 15 project (4-Bit Structural ALU & Parity Checker), how did you implement subtraction alongside addition without duplicating full adder hardware, and how did you verify the Zero and Overflow status flags across edge cases?',
+            answerText:
+              'I XORed operand B with op_sub and passed op_sub into Cin so A + ~B + 1 computes A - B. Zero flag used ~|result, and overflow checked Cin[3] ^ Cout[3].',
+            skipped: false,
+            status: 'partial',
+            scoreOutOf10: 7,
+            rubricBreakdown: {
+              conceptualUnderstanding: 19,
+              technicalAccuracy: 15,
+              practicalProblemSolving: 15,
+              codingAndDebugging: 14,
+              communicationAndExplanation: 12,
+            },
+            aiFeedback:
+              'Good hardware sharing with XOR + Cin. Be explicit about testing boundary vectors like -8 - 1 and +7 + 1 to verify signed overflow vs unsigned carry.',
+            misconceptionsDetected: [],
+            idealExplanation:
+              'Sharing the adder via `B ^ {4{op_sub}}` and `Cin = op_sub`, with explicit boundary testing at two’s complement wrap edges (-8 and +7).',
+            curriculumModuleId: 'm3_fsm_intro',
+            timeSpentSeconds: 360,
+          },
+        ],
+      },
+    ],
+    activeSession: null,
+  };
+}
